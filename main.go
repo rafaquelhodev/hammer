@@ -3,13 +3,15 @@ package main
 import (
 	"time"
 
+	"github.com/rafaquelhodev/hammer/config"
 	"github.com/rafaquelhodev/hammer/job"
-	"github.com/rafaquelhodev/hammer/simulation"
+	"github.com/rafaquelhodev/hammer/tester"
 )
 
 func main() {
-	job := job.HttpJob{DomainUrl: "test.com"}
+	config := config.Config{DomainUrl: "test.com", TimeSettings: config.TimeSettings{Frequency: time.Millisecond * 300, TotalDuration: time.Second * 2}}
 
-	orchestrator := simulation.Orchestrator{Interval: time.Millisecond * 300, TotalDuration: time.Second * 2}
-	orchestrator.Start(job)
+	job := job.HttpJob{DomainUrl: config.DomainUrl}
+
+	tester.Start(job, config)
 }

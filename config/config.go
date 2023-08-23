@@ -7,10 +7,10 @@ type Config struct {
 	TimeSettings TimeSettings
 }
 
-// Struct that defines the orchestrator
+// Struct for the time settings when running hammer
 type TimeSettings struct {
-	// Interval between execution calls
-	Interval time.Duration
-	// Total duration the orchestrator must run
+	// Frequency between execution calls
+	Frequency time.Duration
+	// Total duration hammer must run
 	TotalDuration time.Duration
 }
