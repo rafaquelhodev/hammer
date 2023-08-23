@@ -9,9 +9,9 @@ import (
 )
 
 func main() {
-	config := config.Config{DomainUrl: "test.com", TimeSettings: config.TimeSettings{Frequency: time.Millisecond * 300, TotalDuration: time.Second * 2}}
+	config := config.Config{DomainUrl: "test.com", TimeSettings: config.TimeSettings{Frequency: time.Millisecond * 3000, TotalDuration: time.Second * 6}}
 
-	job := job.HttpJob{DomainUrl: config.DomainUrl}
+	job := job.HttpJob{DomainUrl: config.DomainUrl, HammerNumber: 2}
 
 	tester.Start(job, config)
 }

@@ -9,17 +9,23 @@ import (
 )
 
 // Starts the hammer test
-func Start(job job.Job, config config.Config) {
+func Start(hammer job.Job, config config.Config) {
 	ticker := time.NewTicker(config.TimeSettings.Frequency)
 	done := make(chan bool)
+	hammerResultsChannel := make(chan [][]job.Response)
+	defer close(hammerResultsChannel)
 
 	go func() {
+		results := [][]job.Response{}
 		for {
 			select {
 			case <-done:
+				hammerResultsChannel <- results
+				fmt.Print("Closing Jobchannel \n")
 				return
 			case t := <-ticker.C:
-				job.Execute()
+				response := hammer.Execute()
+				results = append(results, response)
 				fmt.Println("Tick at", t)
 			}
 		}
@@ -29,5 +35,9 @@ func Start(job job.Job, config config.Config) {
 	ticker.Stop()
 
 	done <- true
+
+	hammerResults := <-hammerResultsChannel
+	fmt.Printf("Hammer results %v \n", hammerResults)
+
 	fmt.Println("Done!!")
 }

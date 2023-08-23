@@ -3,7 +3,7 @@ package job
 import "time"
 
 type Job interface {
-	Execute() Response
+	Execute() []Response
 }
 
 type Response struct {
